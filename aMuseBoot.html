@@ -1,4 +1,4 @@
-<body> 
+<body>
     <head><link rel="stylesheet" href="styles.css"></head>
     <div id="root"><div id="shit"></div></div>
     <script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
@@ -90,6 +90,15 @@
                 label: ""
                 }
             ]};
+            this.handleNext = this.handleNext.bind(this);
+            this.handleEnter = this.handleEnter.bind(this);
+            this.handleChange = this.handleChange.bind(this);
+            this.cookieJar1 = this.cookieJar1.bind(this);
+            this.randPrompt = this.randPrompt.bind(this);
+            this.adjExercise = this.adjExercise.bind(this);
+            this.metaphorFind = this.metaphorFind.bind(this);
+            this.comparisonFind = this.comparisonFind.bind(this);
+            this.verbFinding = this.verbFinding.bind(this);
         }
         //Add home button top right using img="tags" link = "amuseboot.com"
         componentWillMount(){
@@ -110,8 +119,9 @@
                         while(this.state.cookieGuess1.includes(randomGuess)){
                             const randomGuess=Math.floor(Math.random()*54);
                         }
-                        this.state.cookieGuess1.push(randomGuess)
+                        this.state.cookieGuess1.push(randomGuess);
                         const dataSplit=date.split("<split>");
+                        console.log(dataSplit);
                         this.state.cookieList1.push(dataSplit[randomGuess])
                         i=i+1
                     }
@@ -119,7 +129,9 @@
         }
 
         randPrompt = () => {
-            this.state.prompt=this.state.prompts[Math.floor(Math.random()*3)]
+            this.setState({
+              prompt: this.state.prompts[Math.floor(Math.random()*3)]
+            })
         }
 
         adjExercise = () => {
@@ -128,7 +140,8 @@
                 .then(data => {
                 const randInt = Math.floor(Math.random()*25);
                 const adj1=data.split(".")[randInt];
-                this.state.adjQ=`Use five adjectives to describe: ${adj1}`
+                this.setState({adjQ: `Use five adjectives to describe: ${adj1}`});
+                // this.state.adjQ=`Use five adjectives to describe: ${adj1}`
                 });
         }
 
@@ -136,7 +149,7 @@
             const metaphors = [
                 "Reading is a means of thinking with another person’s mind; it forces you to stretch your own.",
                 "It is good to rub and polish our brain against that of another.",
-                "Wear your learning like your watch, in a private pocket; do not pull it out and strike it merely to show you have one.", 
+                "Wear your learning like your watch, in a private pocket; do not pull it out and strike it merely to show you have one.",
                 "Words are the physicians of a mind diseased.",
                 "Such as are your habitual thoughts, such also will be the character of your mind; for the soul is dyed by the color of the thoughts.",
                 "Words are, of course, the most powerful drug used by mankind.",
@@ -147,7 +160,7 @@
                 "His ears made him look like a taxi cab with both doors open.",
                 "He was a one-man slum.",
                 "She is a shiver looking for a spine to run up.",
-                "He occasionally stumbled over the truth, but would hastily pick himself up and hurry on as if nothing had happened.", 
+                "He occasionally stumbled over the truth, but would hastily pick himself up and hurry on as if nothing had happened.",
                 '"A man is not necessarily intelligent because he has plenty of ideas, any more than he is a good general because he has plenty of soldiers." NICOLAS CHAMFORT',
                 '"The desire for success lubricates secret prostitutions in the soul." NORMAN MAILER',
                 '"If you’re black, you got to look at America a little bit different. You got to look at America like the uncle who paid for you to go to college, but who molested you." CHRIS ROCK',
@@ -160,8 +173,9 @@
                 "I find the great thing in this world is not so much where we stand, as in what direction we are moving. To reach the port of heaven, we must sail sometimes with the wind and sometimes against it— but we must",
                 '"sail, and not drift, nor lie at anchor." OLIVER WENDELL HOLMES, SR',
                 "In the depth of winter, I finally learned that within me there lay an invincible summer."
-            ]
-            this.state.metaphor=metaphors[Math.floor(Math.random()*metaphors.length)]           
+            ];
+            this.setState({metaphor: metaphors[Math.floor(Math.random() * metaphors.length)]});
+            // this.state.metaphor=metaphors[Math.floor(Math.random()*metaphors.length)]
         }
 
         comparisonFind = () => {
@@ -189,15 +203,16 @@
             "a weather event",
             "some kind of plant",
             "something very tiny"
-            ]
-            this.state.comparison = comparisons[Math.floor(Math.random()*comparisons.length)];
+          ];
+            this.setState({comparison: comparisons[Math.floor(Math.random()*comparisons.length)]});
+            // this.state.comparison = comparisons[Math.floor(Math.random()*comparisons.length)];
         }
 
         verbFinding = () => {
             const ans = document.getElementById("answer3").value;
             const list1 = [
-                `My ${ans} hates`, 
-                `My ${ans} loves`, 
+                `My ${ans} hates`,
+                `My ${ans} loves`,
                 `My ${ans} starts every day by`,
                 `My ${ans} would never be caught`,
                 `When he/she's really blissed out, my ${ans} can be seen`,
@@ -210,11 +225,13 @@
                 `My ${ans} feels like s/he is always`,
                 `My ${ans} was a child, s/he loved`
             ];
-            this.state.userSen1 = list1[Math.floor(Math.random()*list1.length)];
+            this.setState({userSen1: list1[Math.floor(Math.random() * list1.length)]});
+            // this.state.userSen1 = list1[Math.floor(Math.random()*list1.length)];
         }
 
         handleChange = (index, event) => {
             if(this.state.q_yet==0){
+                // this.setState({q_yet: this.state.q_yet + 1});
                 this.state.q_yet=this.state.q_yet+1;
                 this.handleNext()
             }
@@ -224,7 +241,7 @@
                 const values = state.values.map((item, j) => {
                     if (j === index) {
                     return event.target.value;
-                    } 
+                    }
                     else {
                     return item;
                     }
@@ -252,26 +269,39 @@
 
         handleEnter = (index, event) => {
             if(event.key === 'Enter' && this.state.step < this.state.questions.length){
-                this.state.q_yet = this.state.q_yet +1
+                this.setState({q_yet: this.state.q_yet + 1});
+                // this.state.q_yet = this.state.q_yet +1;
                 if(this.state.q_yet == 3){
-                    this.state.quoteIndex = this.state.quoteIndex+1
-                    this.verbFinding()
+                    this.setState({quoteIndex: this.state.quoteIndex + 1});
+                    this.verbFinding();
                 }
                 else if(this.state.q_yet == 4){
-                    this.state.quoteIndex = this.state.quoteIndex+1
+                    this.setState({quoteIndex: this.state.quoteIndex + 1});
+                    // this.state.quoteIndex = this.state.quoteIndex+1;
                     const u_str2 = document.getElementById("answer4").value;
-                    this.state.userSen2 = `${this.state.userSen1} ${u_str2}`
+                    this.setState({
+                      userSen2: `${this.state.userSen1} ${u_str2}`
+                    });
+                    // this.state.userSen2 = `${this.state.userSen1} ${u_str2}`;
                 }
                 else if(this.state.q_yet == 5){
-                    this.state.quoteIndex = this.state.quoteIndex+1
+                    this.setState({quoteIndex: this.state.quoteIndex + 1});
+                    // this.state.quoteIndex = this.state.quoteIndex+1;
                     const u_str3 = document.getElementById("answer5").value;
                     const u_str2 = document.getElementById("answer4").value;
-                    this.state.userSen3 = `${this.state.userSen1} ${u_str2} because ${u_str3}`
+                    this.setState({
+                      userSen3: `${this.state.userSen1} ${u_str2} because ${u_str3}`
+                    });
+                    // this.state.userSen3 = `${this.state.userSen1} ${u_str2} because ${u_str3}`;
                 }
-                else if(this.state.q_yet == 8){
-                    this.state.quoteIndex = this.state.quoteIndex+1
+                else if (this.state.q_yet == 8){
+                    this.setState({quoteIndex: this.state.quoteIndex + 1});
+                    // this.state.quoteIndex = this.state.quoteIndex+1;
                     const u_str4 = document.getElementById("answer6").value;
-                    this.state.userSen4 = `${u_str4} because:`
+                    this.setState({
+                      userSen4: `${u_str4} because:`
+                    })
+                    // this.state.userSen4 = `${u_str4} because:`;
                 }
                 this.handleNext(index);
             }
@@ -282,6 +312,7 @@
 
         render() {
             const { questions, step, q_yet, adjQ, values, quoteIndex} = this.state;
+
             return (
             <div>
                 <div id="Header">
@@ -313,7 +344,7 @@
                     name={"answer"+question.id}
                     id={"answer"+question.id}
                     value={values[index]}
-                    onChange={e => this.handleChange(index, e)} 
+                    onChange={e => this.handleChange(index, e)}
                     onKeyDown={e => this.handleEnter(index, e)}
                      />}
                     <p id={"p"+question.id}></p>
@@ -326,7 +357,7 @@
                 ))}
             </div>
             );
-            
+
         }
     }
 ReactDOM.render(
