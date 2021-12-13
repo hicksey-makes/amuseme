@@ -109,20 +109,22 @@
             this.comparisonFind()
         }
 
-        cookieJar1 = () =>{
+        cookieJar1 = () => {
             fetch('./cookieJar1.txt')
                 .then(response => response.text())
                 .then(date => {
                     let i = 0;
-                    while(i<5){
-                        const randomGuess=Math.floor(Math.random()*54);
-                        while(this.state.cookieGuess1.includes(randomGuess)){
-                            const randomGuess=Math.floor(Math.random()*54);
+                    while(i < 5){
+                        const randomGuess = Math.floor(Math.random()*54);
+                        while(this.state.cookieGuess1.includes(randomGuess)) {
+                            const randomGuess = Math.floor(Math.random() * 54);
                         }
-                        this.state.cookieGuess1.push(randomGuess);
+                        this.setState({cookieGuess1: [...this.state.cookieGuess1, randomGuess]});
+                        // this.state.cookieGuess1.push(randomGuess);
                         const dataSplit=date.split("<split>");
                         console.log(dataSplit);
-                        this.state.cookieList1.push(dataSplit[randomGuess])
+                        this.setState({cookieList1: [...this.state.cookieList1, dataSplit[randomGuess]]});
+                        // this.state.cookieList1.push(dataSplit[randomGuess])
                         i=i+1
                     }
                 });
@@ -233,10 +235,10 @@
             if(this.state.q_yet==0){
                 // this.setState({q_yet: this.state.q_yet + 1});
                 this.state.q_yet=this.state.q_yet+1;
-                this.handleNext()
+                this.handleNext();
             }
             else{
-                event.persist()
+                event.persist();
                 this.setState(state => {
                 const values = state.values.map((item, j) => {
                     if (j === index) {
@@ -255,27 +257,27 @@
         }
 
         handleNext = (next) => {
-            const aID = `answer${this.state.q_yet}`
-            const pID = `p${this.state.q_yet}`
-            const getElem = document.getElementById(aID)
-            const getP = document.getElementById(pID)
-            if(this.state.q_yet !== 1){
+            const aID = `answer${this.state.q_yet}`;
+            const pID = `p${this.state.q_yet}`;
+            const getElem = document.getElementById(aID);
+            const getP = document.getElementById(pID);
+            if (this.state.q_yet !== 1) {
                 const userInp = getElem.value;
-                getP.innerHTML=userInp;
+                getP.innerHTML = userInp;
             }
             getElem.style.display = "none";
-            this.setState((prev) => ({step: prev.step+1, values: [...prev.values, '']}));
+            this.setState((prev) => ({step: prev.step + 1, values: [...prev.values, '']}));
         }
 
         handleEnter = (index, event) => {
             if(event.key === 'Enter' && this.state.step < this.state.questions.length){
                 this.setState({q_yet: this.state.q_yet + 1});
                 // this.state.q_yet = this.state.q_yet +1;
-                if(this.state.q_yet == 3){
+                if (this.state.q_yet == 3){
                     this.setState({quoteIndex: this.state.quoteIndex + 1});
                     this.verbFinding();
                 }
-                else if(this.state.q_yet == 4){
+                else if (this.state.q_yet == 4){
                     this.setState({quoteIndex: this.state.quoteIndex + 1});
                     // this.state.quoteIndex = this.state.quoteIndex+1;
                     const u_str2 = document.getElementById("answer4").value;
@@ -284,7 +286,7 @@
                     });
                     // this.state.userSen2 = `${this.state.userSen1} ${u_str2}`;
                 }
-                else if(this.state.q_yet == 5){
+                else if (this.state.q_yet == 5){
                     this.setState({quoteIndex: this.state.quoteIndex + 1});
                     // this.state.quoteIndex = this.state.quoteIndex+1;
                     const u_str3 = document.getElementById("answer5").value;
@@ -306,9 +308,6 @@
                 this.handleNext(index);
             }
         }
-
-
-
 
         render() {
             const { questions, step, q_yet, adjQ, values, quoteIndex} = this.state;
@@ -338,7 +337,7 @@
                     {question.id == 7 ? <span name="userQuote">{this.state.userSen4}</span> : null}
                     {question.id == 12 ? <h5 id="meta">{this.state.metaphor}<br/></h5> : null}
                     {question.id == 14 ? <h5 id="meta">{this.state.comparison}<br/></h5> : null}
-                    {question.id == 15 ? <h1 id="meta"class="center">Congratgulations!<br/></h1> : null}
+                    {question.id == 15 ? <h1 id="meta"class="center">Congratulations!<br/></h1> : null}
                     {question.id == 15 ? <h3 id="meta">Here's one last cookie (:<br/></h3> : <textarea
                     autoFocus
                     name={"answer"+question.id}
