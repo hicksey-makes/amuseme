@@ -125,7 +125,7 @@
                         console.log(dataSplit);
                         this.setState({cookieList1: [...this.state.cookieList1, dataSplit[randomGuess]]});
                         // this.state.cookieList1.push(dataSplit[randomGuess])
-                        i=i+1
+                        i=i+1;
                     }
                 });
         }
@@ -232,12 +232,15 @@
         }
 
         handleChange = (index, event) => {
-            if(this.state.q_yet==0){
+            if(this.state.q_yet == 0){
                 // this.setState({q_yet: this.state.q_yet + 1});
-                this.state.q_yet=this.state.q_yet+1;
+                this.setState({
+                  q_yet: this.state.q_yet + 1
+                });
+                // this.state.q_yet=this.state.q_yet+1;
                 this.handleNext();
             }
-            else{
+            else {
                 event.persist();
                 this.setState(state => {
                 const values = state.values.map((item, j) => {
@@ -248,7 +251,6 @@
                     return item;
                     }
                 });
-
                 return {
                     values,
                 };
@@ -270,7 +272,7 @@
         }
 
         handleEnter = (index, event) => {
-            if(event.key === 'Enter' && this.state.step < this.state.questions.length){
+            if  (event.key === 'Enter' && this.state.step < this.state.questions.length) {
                 this.setState({q_yet: this.state.q_yet + 1});
                 // this.state.q_yet = this.state.q_yet +1;
                 if (this.state.q_yet == 3){
@@ -311,7 +313,7 @@
 
         render() {
             const { questions, step, q_yet, adjQ, values, quoteIndex} = this.state;
-
+            console.log(step);
             return (
             <div>
                 <div id="Header">
@@ -359,10 +361,10 @@
 
         }
     }
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    );
 
     </script>
 </body>
